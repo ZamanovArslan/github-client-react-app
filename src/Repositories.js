@@ -1,5 +1,4 @@
 import React from 'react';
-
 import gql from 'graphql-tag';
 import { makeStyles } from '@material-ui/core/styles';
 import { Query, Mutation } from 'react-apollo';
@@ -8,26 +7,12 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 
-const GET_REPOSITORIES_OF_ORGANIZATION = gql`
-  {
-    organization(login: "fs") {
-      repositories(first: 20) {
-        edges {
-          node {
-            id
-            name
-            url
-            viewerHasStarred
-          }
-        }
-      }
-    }
-  }
-`;
+import styles from './assets/App.module.css';
+import Loading from './Loading'
+import ErrorMessage from './ErrorMessage'
 
 const STAR_REPOSITORY = gql`
   mutation($id: ID!) {
@@ -51,103 +36,43 @@ const REMOVE_STAR_REPOSITORY = gql`
   }
 `;
 
-const App = () => (
-  <Query query={GET_REPOSITORIES_OF_ORGANIZATION}>
-    {({ data: { organization }, loading }) => {
-      if (loading || !organization) {
-        return <div>Loading ...</div>;
-      }
+export default function Repositories(props){
+  const { repositories } = props;
 
-      return (
-        <Repositories repositories={organization.repositories} />
-      );
-    }}
-  </Query>
-);
+  return (
+    <Grid container spacing={3}>
+      {repositories.edges.map(({ node }) => {
+        const rowClassName = ['row'];
 
-class Repositories extends React.Component {
-  state = {
-    selectedRepositoryIds: [],
-  };
-
-  toggleSelectRepository = (id, isSelected) => {
-    let { selectedRepositoryIds } = this.state;
-
-    selectedRepositoryIds = isSelected
-      ? selectedRepositoryIds.filter(itemId => itemId !== id)
-      : selectedRepositoryIds.concat(id);
-
-    this.setState({ selectedRepositoryIds });
-  };
-
-  render() {
-    return (
-      <Container maxWidth="md">
-        <Typography fontWeight="fontWeightBold" fontFamily="fontFamily" variant="h2" component="h">
-          React Github client
-        </Typography>
-        <RepositoryList
-          repositories={this.props.repositories}
-          selectedRepositoryIds={this.state.selectedRepositoryIds}
-          toggleSelectRepository={this.toggleSelectRepository}
-        />
-      </Container>
-    );
-  }
+        return (
+          <Grid item xs={3} className={rowClassName.join(' ')} key={node.id}>
+            <Paper className={styles.paperItem}>
+              <Typography className={styles.githubRepositoryTitle} variant="h6">
+                <a href={node.url}>{node.name}</a>
+              </Typography>
+              <Typography variant="body2">
+                {node.description}
+              </Typography>
+              <Typography variant="overline">
+                {node.owner.login}
+              </Typography>
+              <Star id={node.id} viewerHasStarred={node.viewerHasStarred}/>
+            </Paper>
+          </Grid>
+        );
+      })}
+    </Grid>
+  )
 }
 
-const RepositoryList = ({
-  repositories,
-  selectedRepositoryIds,
-  toggleSelectRepository,
-}) => (
-  <Grid container spacing={3}>
-
-    {repositories.edges.map(({ node }) => {
-      const isSelected = selectedRepositoryIds.includes(node.id);
-
-      const rowClassName = ['row'];
-
-      if (isSelected) {
-        rowClassName.push('row_selected');
-      }
-
-      return (
-        <Grid item xs={4} className={rowClassName.join(' ')} key={node.id}>
-          <Paper className="paper-item">
-            <Typography fontStyle="none">
-              <a href={node.url}>{node.name}</a>{' '}
-            </Typography>
-            <Select
-              id={node.id}
-              isSelected={isSelected}
-              toggleSelectRepository={toggleSelectRepository}
-            />{' '}
-            <Star id={node.id} viewerHasStarred={node.viewerHasStarred}/>
-          </Paper>
-        </Grid>
-      );
-    })}
-  </Grid>
-);
-
 const Star = ({ id, viewerHasStarred }) => (
-  <Mutation mutation={STAR_REPOSITORY} variables={{ id }}>
+  <Mutation mutation={viewerHasStarred ? REMOVE_STAR_REPOSITORY : STAR_REPOSITORY} variables={{ id }}>
     {starRepository => (
-      <Button type="button" onClick={starRepository}>
-        { viewerHasStarred ? <StarIcon /> : <StarBorderIcon/> }
-      </Button>
+      <div className={styles.starButton}>
+        <Button  type="button" onClick={starRepository} >
+        { viewerHasStarred ? <StarIcon /> : <StarBorderIcon/> }        
+        </Button>
+      </div>
     )}
   </Mutation>
 );
-
-const Select = ({ id, isSelected, toggleSelectRepository }) => (
-  <button
-    type="button"
-    onClick={() => toggleSelectRepository(id, isSelected)}
-  >
-    {isSelected ? 'Unselect' : 'Select'}
-  </button>
-);
-
-export default App;

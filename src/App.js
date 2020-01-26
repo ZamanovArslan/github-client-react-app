@@ -1,11 +1,18 @@
 import React from 'react';
-import styles from './assets/App.module.css';
-import Login from './Login'
-import Logged from './Logged'
-import Repositories from './Repositories'
-import Homepage from './Homepage'
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+
+import styles from './assets/App.module.css';
+import * as routes from './constants/routes';
+import Repository from './Repository'
+import Repositories from './Repositories'
+import Homepage from './Homepage'
+import Login from './Login'
+import Navigation from './Navigation';
+import Profile from './Profile';
+import SearchRepositories from './SearchRepositories'
 
 import {
   BrowserRouter as Router,
@@ -17,37 +24,29 @@ import {
   useLocation
 } from 'react-router-dom';
 
-function Routes(props) {
-  return (
-    <Container maxWidth="md">
-      <Router>
-        <div>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
-          </ul>
-
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <PrivateRoute path="/repositories">
-              <Repositories />
-            </PrivateRoute>
-            <Route path="/accessToken">
-              <Logged />
-            </Route>
-            <Route path="/">
-              <Homepage />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </Container>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Navigation/>
+        <Container maxWidth="lg" id="container">
+          <Router>
+            <Switch>
+              <Route path={routes.LOGIN} component={Login}/>
+              <PrivateRoute path={routes.REPOSITORIES} component={Repositories}/>
+              <PrivateRoute path={routes.REPOSITORY} component={Repository} />
+              <PrivateRoute path={routes.PROFILE} component={Profile}/>
+              <PrivateRoute path={routes.SEARCH} component={SearchRepositories}/>
+              <Route path={routes.ROOT} component={Homepage}/>
+            </Switch>
+          </Router>
+        </Container>
+      </div>
+    );
+  }
 }
 
-function PrivateRoute({ children, ...rest }) {
+function PrivateRoute ({ children, ...rest }) {
   return (
     <Route
       {...rest}
@@ -66,4 +65,5 @@ function PrivateRoute({ children, ...rest }) {
     />
   );
 }
-export default Routes;
+
+export default App;

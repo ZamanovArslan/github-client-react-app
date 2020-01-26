@@ -1,20 +1,16 @@
 body{
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  padding: 0;
+  margin: 0;
 }
+
 .row {
   padding: 5px;
 }
 
-.row:hover {
-  background-color: lightblue;
-}
-
-.row_selected {
-  background-color: orange;
-}
-
-.row_selected:hover {
-  background-color: orange;
+.navbar{
+  margin-bottom: 20px;
+  position: relative;
 }
 
 a {
@@ -22,12 +18,33 @@ a {
   text-decoration: none;
 }
 
-.paper-item {
+.paperItem {
   padding: 20px 10px;
+  position: relative;
+}
+
+.starButton{
+  position: absolute;
+  right: 0;
+  top: 15px;
+}
+
+.profileTitle span{
+  font-size: 30px;
+  display: block;
+}
+
+.userProfileInfo{
+  margin-bottom: 20px;
 }
 
 .github{
   width: 200px;
+}
+
+.githubRepositoryTitle{
+  display: inline;
+  flex-grow: 1;
 }
 
 .centered {
@@ -35,4 +52,205 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.listHorizontalDisplay{
+  flex-grow: 1;
+}
+
+.listHorizontalDisplay h6, .listHorizontalDisplay li {
+  display: inline;
+}
+
+.loginButton{
+  right: 30px;
+  position: absolute;
+}
+
+.loader {
+  display: block;
+  height: 32px;
+  width: 32px;
+  -webkit-animation: loader-2-1 3s linear infinite;
+          animation: loader-2-1 3s linear infinite;
+}
+@-webkit-keyframes loader-2-1 {
+  0%   { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes loader-2-1 {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loader span {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  bottom: 0; right: 0;
+  margin: auto;
+  height: 32px;
+  width: 32px;
+  clip: rect(16px, 32px, 32px, 0);
+  -webkit-animation: loader-2-2 1.5s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+          animation: loader-2-2 1.5s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+}
+@-webkit-keyframes loader-2-2 {
+  0%   { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes loader-2-2 {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loader span::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  bottom: 0; right: 0;
+  margin: auto;
+  height: 32px;
+  width: 32px;
+  border: 3px solid transparent;
+  border-top: 3px solid #FFF;
+  border-radius: 50%;
+  -webkit-animation: loader-2-3 1.5s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+          animation: loader-2-3 1.5s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+}
+@-webkit-keyframes loader-2-3 {
+  0%   { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes loader-2-3 {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loader span::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  bottom: 0; right: 0;
+  margin: auto;
+  height: 32px;
+  width: 32px;
+  border: 3px solid rgba(25, 181, 254, .5);
+  border-radius: 50%;
+}
+
+.error{
+  width:80%;
+  background-color: #ffffff;
+  padding:20px;
+  border:1px solid #eee;
+  border-left-width:5px;
+  border-radius: 3px;
+  margin:10px auto;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+.danger{
+  border-left-color: #d9534f; /* Left side border color */
+  background-color: rgba(217, 83, 79, 0.1); /*Same color as the left border with reduced alpha to 0.1*/
+}
+
+/* CSS design by @jofpin */
+@import url(https://fonts.googleapis.com/css?family=Raleway|Varela+Round|Coda);
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+
+[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
+.title-pen {
+  color: #333;
+  font-family: "Coda", sans-serif;
+  text-align: center;
+}
+.title-pen span {
+  color: #55acee;
+}
+
+.user-profile {
+  margin: auto;
+  width: 25em; 
+  height: 11em;
+  background: #fff;
+  border-radius: .3em;
+}
+
+.user-profile  .username {
+  margin: auto;
+  margin-top: -4.40em;
+  margin-left: 5.80em;
+  color: #658585;
+  font-size: 1.53em;
+  font-family: "Coda", sans-serif;
+  font-weight: bold;
+}
+.user-profile  .bio {
+  margin: auto;
+  display: inline-block;
+  margin-left: 10.43em;
+  color: #e76043; 
+  font-size: .87em;
+  font-family: "varela round", sans-serif;
+}
+.user-profile > .description {
+  margin: auto;
+  margin-top: 1.35em;
+  margin-right: 4.43em;
+  width: 14em;
+  color: #c0c5c5; 
+  font-size: .87em;
+  font-family: "varela round", sans-serif;
+}
+.user-profile > img.avatar {
+  padding: .7em;
+  margin-left: .3em;
+  margin-top: .3em;
+  height: 6.23em;
+  width: 6.23em;
+  border-radius: 18em;
+}
+
+.user-profile ul.data {
+  margin: 2em auto;
+  height: 3.70em;
+  background: #4eb6b6;
+  text-align: center;
+  border-radius: 0 0 .3em .3em;
+}
+.user-profile li {
+  margin: 0 auto;
+  padding: 1.30em; 
+  width: 33.33334%;
+  display: table-cell;
+  text-align: center;
+}
+
+.user-profile span {
+  font-family: "varela round", sans-serif;
+  color: #e3eeee;
+  white-space: nowrap;
+  font-size: 1.27em;
+  font-weight: bold;
+}
+.user-profile span:hover {
+  color: #daebea;
+}
+
+footer > h1 {
+  display: block;
+  text-align: center;
+  clear: both;
+  font-family: "Coda", sans-serif;
+  color: #343f3d;
+  line-height: 6;
+  font-size: 1.6em;
+}
+footer > h1 a {
+  text-decoration: none;
+  color: #ea4c89;
 }
