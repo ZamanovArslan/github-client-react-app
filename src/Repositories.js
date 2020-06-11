@@ -9,7 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Link from "@material-ui/core/Link";
 
+import * as routes from './constants/routes';
 import styles from './assets/App.module.css';
 import Loading from './Loading'
 import ErrorMessage from './ErrorMessage'
@@ -48,7 +50,7 @@ export default function Repositories(props){
           <Grid item xs={3} className={rowClassName.join(' ')} key={node.id}>
             <Paper className={styles.paperItem}>
               <Typography className={styles.githubRepositoryTitle} variant="h6">
-                <a href={node.url}>{node.name}</a>
+                <Link href={[routes.REPOSITORIES, node.owner.login, node.name].join("/")} color="inherit" underline="none">{node.name}</Link>
               </Typography>
               <Typography variant="body2">
                 {node.description}

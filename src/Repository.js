@@ -4,18 +4,23 @@ import Loading from './Loading'
 import ErrorMessage from './ErrorMessage'
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-
+import Typography from '@material-ui/core/Typography';
 
 const GET_REPOSITORY = gql`
   query($name: String!, $owner: String!) {
     repository(name: $name, owner: $owner) {
       createdAt
+      name
+      description
+      forkCount
+      nameWithOwner
     }
   }
 `;
 
 export default function Repository(props){
-	return <Query query={GET_REPOSITORY} variables={{props}}>
+	console.log(props)
+	return <Query query={GET_REPOSITORY} variables={props.match.params}>
 	  {({ data, loading, error }) => {
 	    if (loading) {
 	      return <Loading />;
@@ -31,29 +36,32 @@ export default function Repository(props){
 	</Query>
 }
 
-const RepositoryInfo = () => {
-	return (<div><h1 class="title-pen"> User Profile <span>UI</span></h1>
-		<div class="user-profile">
-			<img class="avatar" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTF_erFD1SeUnxEpvFjzBCCDxLvf-wlh9ZuPMqi02qGnyyBtPWdE-3KoH3s" alt="Ash" />
-		    <div class="username">Will Smith</div>
-		  <div class="bio">
-		  	Senior UI Designer
-		  </div>
-		    <div class="description">
-		      I use to design websites and applications
-		      for the web.
-		  </div>
-		  <ul class="data">
-		    <li>
-		      <span class="entypo-heart"> 127</span>
-		    </li>
-		    <li>
-		      <span class="entypo-eye"> 853</span>
-		    </li>
-		    <li>
-		      <span class="entypo-user"> 311</span>
-		    </li>
-		 </ul>
-		</div>
-	</div>)
+const RepositoryInfo = ({repository}) => {
+	return (
+		<div>
+			<div className={styles.profileTitle}>
+				<Typography variant="overline">{repository.name}</Typography>
+			</div>
+			<div className={styles.userProfile}>
+		    <div className={styles.userName}>{repository.createdAt.split("T")[0]}</div>
+			  <div className={styles.bio}>
+			  	{repository.nameWithOwner}
+			  </div>
+			    <div className={styles.description}>
+			      {repository.description}
+			  </div>
+			  <ul className={styles.data}>
+			    <li>
+			    	<Typography variant="overline" className>Forks</Typography>
+			      <span className={styles.heart}> {repository.forkCount}</span>
+			    </li>
+			    <li>
+			      <span className={styles.eye}> 853</span>
+			    </li>
+			    <li>
+			      <span className={styles.user}> 311</span>
+			    </li>
+			 </ul>
+			</div>
+		</div>)
 }

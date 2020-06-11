@@ -33,8 +33,8 @@ class App extends React.Component {
           <Router>
             <Switch>
               <Route path={routes.LOGIN} component={Login}/>
+              <PrivateRoute path={routes.REPOSITORY} component={Repository}/>
               <PrivateRoute path={routes.REPOSITORIES} component={Repositories}/>
-              <PrivateRoute path={routes.REPOSITORY} component={Repository} />
               <PrivateRoute path={routes.PROFILE} component={Profile}/>
               <PrivateRoute path={routes.SEARCH} component={SearchRepositories}/>
               <Route path={routes.ROOT} component={Homepage}/>
